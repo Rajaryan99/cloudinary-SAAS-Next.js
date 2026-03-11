@@ -22,6 +22,19 @@ export default clerkMiddleware( async(auth, req) => {
         return NextResponse.redirect(new URL("/home", req.url))
     }
 
+    //not logged in
+
+    if (!userId) {
+        if (!isPublicRoute(req) && !isPublicApiRoute(req)) {
+            return NextResponse.redirect(new URL('/signin', req.url))
+        }
+
+        if (isApiRequest && !isPublicApiRoute(req)) {
+            return NextResponse.redirect(new URL('/signin', req.url))
+
+        }
+    }
+
 })
 
 export const config = {
